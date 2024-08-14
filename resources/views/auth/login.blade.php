@@ -1,7 +1,13 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
+    @if ($errors->any())
+    <div class="py-2 text-center">
+        @foreach ($errors->all() as $error)
+        <p class="text-red-600">{{ $error }}</p>
+        @endforeach
+    </div>
+    @endif
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
@@ -17,9 +23,9 @@
             <x-input-label for="password" :value="__('Password')" />
 
             <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+                type="password"
+                name="password"
+                required autocomplete="current-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -34,14 +40,19 @@
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                {{ __('Forgot your password?') }}
+            </a>
             @endif
 
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>
+        </div>
+        <div class="block pt-10 w-full text-center">
+            <a class="text-sm text-gray-600 hover:text-gray-900 rounded-md" href="{{ route('register') }}">
+                {{ __('Don\'t have an account? Register here') }}
+            </a>
         </div>
     </form>
 </x-guest-layout>
